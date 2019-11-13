@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Go4Lunch</string>
+    <string name="title_map_view">Map View</string>
+    <string name="title_list_view">List View</string>
+    <string name="title_workmates_view">Workmates</string>
+    <string name="facebook_app_id">418991109041382</string>
+    <string name="fb_login_protocol_scheme">fb418991109041382</string>
+    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyChcg5b-4mypfI6aw2PpCcs4FStpO0AOgo</string>
+
+</resources>

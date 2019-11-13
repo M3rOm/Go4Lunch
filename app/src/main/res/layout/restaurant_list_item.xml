@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="100dp"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/restaurant_name_textView"
+        style="@style/general_textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Casa Nostra"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/restaurant_address_textView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/restaurant_address_textView"
+        style="@style/general_textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Italian - 42 Rue de Sicilie"
+        app:layout_constraintBottom_toTopOf="@+id/restaurant_opening_textView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/restaurant_name_textView" />
+
+    <TextView
+        android:id="@+id/restaurant_opening_textView"
+        style="@style/general_textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Open until 4pm"
+        app:layout_constraintBottom_toBottomOf="@id/restaurant_imageView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/restaurant_address_textView" />
+
+    <ImageView
+        android:id="@+id/restaurant_imageView"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:scaleType="centerCrop"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:srcCompat="@tools:sample/backgrounds/scenic" />
+
+    <TextView
+        android:id="@+id/restaurant_distance_textView"
+        style="@style/general_textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="120m"
+        app:layout_constraintBottom_toTopOf="@id/restaurant_numberOfGoing_textView"
+        app:layout_constraintEnd_toStartOf="@+id/restaurant_imageView"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/restaurant_numberOfGoing_textView"
+        style="@style/general_textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="(4)"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@id/imageView3"
+        app:layout_constraintEnd_toStartOf="@+id/restaurant_imageView"
+        app:layout_constraintTop_toBottomOf="@+id/restaurant_distance_textView" />
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        app:layout_constraintBottom_toTopOf="@id/imageView3"
+        app:layout_constraintEnd_toStartOf="@+id/restaurant_numberOfGoing_textView"
+        app:layout_constraintTop_toBottomOf="@+id/restaurant_distance_textView"
+        app:srcCompat="@drawable/com_facebook_profile_picture_blank_square" />
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/restaurant_imageView"
+        app:layout_constraintEnd_toStartOf="@+id/restaurant_imageView"
+        app:layout_constraintTop_toBottomOf="@+id/restaurant_numberOfGoing_textView"
+        app:srcCompat="@android:drawable/btn_star_big_on" />
+
+
+    <ImageView
+        android:id="@+id/imageView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/restaurant_imageView"
+        app:layout_constraintEnd_toStartOf="@+id/imageView3"
+        app:layout_constraintTop_toBottomOf="@+id/restaurant_numberOfGoing_textView"
+        app:srcCompat="@android:drawable/btn_star_big_on" />
+
+    <ImageView
+        android:id="@+id/imageView5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/restaurant_imageView"
+        app:layout_constraintEnd_toStartOf="@+id/imageView4"
+        app:layout_constraintTop_toBottomOf="@+id/restaurant_numberOfGoing_textView"
+        app:srcCompat="@android:drawable/btn_star_big_on" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
