@@ -1,7 +1,12 @@
 package com.example.go4lunch.model
 
-class User (
-    val name : String,
-    val photo : String) {
-    constructor():this ("","")
+class User(
+    val firstName: String,
+    val lastName : String,
+    val email : String,
+    val photo: String?,
+    val decided: Boolean,
+    val placeToEat: Restaurant?
+) {
+    constructor() : this("","","", null, false, null)
 }

@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.example.go4lunch.util.FirestoreUtil
 import com.facebook.*
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.ErrorCodes
@@ -78,14 +79,15 @@ class LoginActivity : AppCompatActivity() {
             val response = IdpResponse.fromResultIntent(data)
 
             if (resultCode == Activity.RESULT_OK) {
+                FirestoreUtil.initCurrentUserIfFirstTime {
+                    startActivity(
+                        Intent(this, MainActivity::class.java)
+                            .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                            .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
+                }
                 //TODO: Indeterminate progress dialog?
                 //TODO: Initialize current user in Firestore
-                val user = FirebaseAuth.getInstance().currentUser
-                startActivity(
-                    Intent(this, MainActivity::class.java)
-                        .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
-                        .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                )
+                //val user = FirebaseAuth.getInstance().currentUser
             } else if (resultCode == Activity.RESULT_CANCELED) {
                 if (response == null) return
                 when (response.error?.errorCode) {
@@ -142,9 +144,4 @@ class LoginActivity : AppCompatActivity() {
         Toast.makeText(this, "${currentUser.toString()} is logged in", Toast.LENGTH_SHORT).show()
     }
 
-    override fun onStop() {
-        super.onStop()
-        // TODO: This is not the right place for signout
-        AuthUI.getInstance().signOut(this)
-    }
 }
