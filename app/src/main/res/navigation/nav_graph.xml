@@ -13,13 +13,13 @@
 
     <fragment
         android:id="@+id/navigation_list_view"
-        android:name="com.example.go4lunch.ui.dashboard.ListFragment"
+        android:name="com.example.go4lunch.ui.restaurants.RestaurantListFragment"
         android:label="@string/title_list_view"
-        tools:layout="@layout/fragment_list" />
+        tools:layout="@layout/fragment_restaurants" />
 
     <fragment
         android:id="@+id/navigation_workmates"
-        android:name="com.example.go4lunch.ui.notifications.NotificationsFragment"
+        android:name="com.example.go4lunch.ui.users.UserListFragment"
         android:label="@string/title_workmates_view"
         tools:layout="@layout/fragment_workmates" />
 </navigation>

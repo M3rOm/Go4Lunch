@@ -5,13 +5,21 @@
     <string name="title_map_view">Map View</string>
     <string name="title_list_view">List View</string>
     <string name="title_workmates_view">Workmates</string>
-    <string name="facebook_app_id">418991109041382</string>
-    <string name="fb_login_protocol_scheme">fb418991109041382</string>
+    <string name="facebook_application_id" translatable="false">418991109041382</string>
+    <string name="fb_login_protocol_scheme" translatable="false">fb418991109041382</string>
     <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyChcg5b-4mypfI6aw2PpCcs4FStpO0AOgo</string>
     <string name="your_profile_picture">Your profile picture</string>
     <string name="hint_first_name">First name</string>
     <string name="hint_last_name">Last name</string>
     <string name="hint_email">Email</string>
     <string name="save">Save</string>
+    <string name="user_decided">%1$S is eating %2$s (%3$s)</string>
+    <string name="user_not_decided">%1$S hasn\'t decided yet</string>
+    <string name="cancel">Cancel</string>
+    <string name="hint_new_restaurant_name">Name</string>
+    <string name="hint_new_restaurant_cuisine">Cuisine</string>
+    <string name="hint_new_restaurant_address">Address</string>
+    <string name="hint_new_restaurant_phone">Phone</string>
+    <string name="hint_new_restaurant_website">Website</string>
 
 </resources>

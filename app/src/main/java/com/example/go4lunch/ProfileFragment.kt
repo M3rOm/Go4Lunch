@@ -9,15 +9,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.bumptech.glide.Glide
-import com.bumptech.glide.annotation.GlideModule
 import com.example.go4lunch.glide.GlideApp
 import com.example.go4lunch.util.FirestoreUtil
 import com.example.go4lunch.util.StorageUtil
-import com.google.common.primitives.Bytes
 import kotlinx.android.synthetic.main.fragment_profile.*
 import kotlinx.android.synthetic.main.fragment_profile.view.*
-import kotlinx.android.synthetic.main.nav_header.*
 import java.io.ByteArrayOutputStream
 
 class ProfileFragment : Fragment() {
@@ -78,7 +74,7 @@ class ProfileFragment : Fragment() {
             selectedImageBytes = outputStream.toByteArray()
             GlideApp.with(this)
                 .load(selectedImageBytes)
-                .into(nav_img_profile)
+                .into(profile_image_view)
             pictureJustChanged = true
         }
     }
@@ -90,12 +86,13 @@ class ProfileFragment : Fragment() {
                 first_name_textView.setText(user.firstName)
                 last_name_textView.setText(user.lastName)
                 email_textView.setText(user.email)
-                if (!pictureJustChanged && user.photo != null)
+                if (!pictureJustChanged && user.photo != null && user.photo != "")
                     GlideApp.with(this)
                         .load(StorageUtil.pathToReference(user.photo))
-                        .into(nav_img_profile)
+                        .into(profile_image_view)
 
             }
         }
     }
+
 }

@@ -1,4 +1,4 @@
-package com.example.go4lunch.ui.dashboard
+package com.example.go4lunch.ui.users
 
 import android.os.Bundle
 import android.util.Log
@@ -9,18 +9,14 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.go4lunch.R
 import com.example.go4lunch.services.RestaurantRecyclerAdapter
-import com.google.android.gms.tasks.Task
+import com.example.go4lunch.services.UsersRecyclerAdapter
 import com.google.firebase.firestore.*
-import kotlinx.android.synthetic.main.fragment_list.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers.IO
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
+import kotlinx.android.synthetic.main.fragment_restaurants.*
 import java.util.ArrayList
 
-class ListFragment : Fragment() {
+class UserListFragment : Fragment() {
 
-    private lateinit var restaurantRecyclerAdapter: RestaurantRecyclerAdapter
+    private lateinit var userRecyclerAdapter: UsersRecyclerAdapter
     private lateinit var mQuery: Query
 
     override fun onCreateView(
@@ -28,7 +24,7 @@ class ListFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_list, container, false)
+        return inflater.inflate(R.layout.fragment_restaurants, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -40,8 +36,8 @@ class ListFragment : Fragment() {
 
     private fun initFirestore() {
         val mFirestore = FirebaseFirestore.getInstance()
-        mQuery = mFirestore.collection("restaurants")
-            .orderBy("name")
+        mQuery = mFirestore.collection("users")
+            .orderBy("firstName")
        mQuery.get().addOnSuccessListener { result ->
            var myDocumentsArray : ArrayList<QueryDocumentSnapshot> = ArrayList()
            for (document in result) {
@@ -55,14 +51,14 @@ class ListFragment : Fragment() {
     }
 
     private fun updateUI(myDocumentsArray: ArrayList<QueryDocumentSnapshot>) {
-restaurantRecyclerAdapter.updateItems(myDocumentsArray)
+userRecyclerAdapter.updateItems(myDocumentsArray)
     }
 
     private fun initRecyclerView() {
         recycler_view_restaurants.apply {
             layoutManager = LinearLayoutManager(activity)
-            restaurantRecyclerAdapter = RestaurantRecyclerAdapter()
-            adapter = restaurantRecyclerAdapter
+            userRecyclerAdapter = UsersRecyclerAdapter()
+            adapter = userRecyclerAdapter
         }
     }
 }

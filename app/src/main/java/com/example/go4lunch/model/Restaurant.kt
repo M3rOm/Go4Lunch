@@ -1,8 +1,12 @@
 package com.example.go4lunch.model
 
+import com.google.android.gms.maps.model.LatLng
+
 class Restaurant(
     val name: String,
+    val uid: String,
     val address: String,
+    val position: LatLng?,
     val opening: String,
     val going: List<User>?,
     val phone: String,
@@ -10,5 +14,5 @@ class Restaurant(
     val rating: Double,
     val type: String,
     val website: String){
-    constructor():this ("","","",null,"","",0.0,"","")
+    constructor():this ("","","",null,"",null,"","",0.0,"","")
 }

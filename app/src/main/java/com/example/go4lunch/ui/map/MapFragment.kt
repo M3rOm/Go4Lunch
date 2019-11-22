@@ -1,8 +1,8 @@
 package com.example.go4lunch.ui.map
 
 import android.Manifest
+import android.content.Intent
 import android.content.pm.PackageManager
-import android.content.res.Resources
 import android.location.Location
 import android.os.Bundle
 import android.util.Log
@@ -11,6 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
+import com.example.go4lunch.NewRestaurantActivity
 import com.example.go4lunch.R
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
@@ -52,17 +53,19 @@ class MapFragment : Fragment(), OnMapReadyCallback {
             // Customize the styling of the base map using a JSON object defined
             // in a raw resource file.
             mMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(this.activity, R.raw.map_style))
-        } catch (e: Resources.NotFoundException) {
+        } catch (e: Throwable
+        //Resources.NotFoundException
+        ) {
             Log.e("MAP", "Can't find style. Error: ", e)
         }
         // Move the camera to current position after granting permissions
         enableMyLocation()
         getLocation()
         val home = LatLng(-27.47093, 153.0235)
-        val zoom = 4.0F
         mMap.addMarker(MarkerOptions().position(home))
         //setMapLongClick(mMap)
         setPoiClick(mMap)
+        openNewRestaurantDialog(mMap)
 
     }
 
@@ -109,8 +112,16 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         }
     }
 
+
+    private fun openNewRestaurantDialog (map: GoogleMap) {
+        map.setOnInfoWindowClickListener { poi ->
+            val toPut = poi.position
+            startActivity(Intent(context, NewRestaurantActivity::class.java).putExtra("position", toPut))
+        }
+    }
     private fun setPoiClick(map: GoogleMap) {
         map.setOnPoiClickListener { poi ->
+            map.clear()
             val poiMarker = mMap.addMarker(
                 MarkerOptions()
                     .position(poi.latLng)
