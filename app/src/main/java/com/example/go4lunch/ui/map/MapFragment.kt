@@ -115,8 +115,9 @@ class MapFragment : Fragment(), OnMapReadyCallback {
 
     private fun openNewRestaurantDialog (map: GoogleMap) {
         map.setOnInfoWindowClickListener { poi ->
-            val toPut = poi.position
-            startActivity(Intent(context, NewRestaurantActivity::class.java).putExtra("position", toPut))
+            val idToPut = poi.title
+            val positionToPut = poi.position
+            startActivity(Intent(context, NewRestaurantActivity::class.java).putExtra("restPlaceId", idToPut).putExtra("position",positionToPut))
         }
     }
     private fun setPoiClick(map: GoogleMap) {
@@ -125,7 +126,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
             val poiMarker = mMap.addMarker(
                 MarkerOptions()
                     .position(poi.latLng)
-                    .title(poi.name)
+                    .title(poi.placeId)
             )
             poiMarker.showInfoWindow()
         }

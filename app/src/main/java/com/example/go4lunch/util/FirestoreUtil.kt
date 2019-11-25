@@ -1,6 +1,8 @@
 package com.example.go4lunch.util
 
 import android.util.Log
+import com.example.go4lunch.model.CustomLatLng
+import com.example.go4lunch.model.Restaurant
 import com.google.android.gms.maps.model.LatLng
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentReference
@@ -9,23 +11,17 @@ import com.google.firebase.firestore.FirebaseFirestore
 object FirestoreUtil {
     private val firestoreInstance: FirebaseFirestore by lazy { FirebaseFirestore.getInstance() }
 
-    private val currentUserDocRef: DocumentReference
-        get() = firestoreInstance.document(
-            "users/${FirebaseAuth.getInstance().uid
-                ?: throw NullPointerException("UID is NULL")}"
+    private val currentUserDocRef: DocumentReference = firestoreInstance.document(
+        "users/${FirebaseAuth.getInstance().uid
+            ?: throw NullPointerException("UID is NULL")}"
+    )
+
+    private fun getCurrentRestaurantDocRef(id: String): DocumentReference {
+        val currentRestaurantDocRef: DocumentReference = firestoreInstance.document(
+            "restaurants/$id"
         )
-    private val restCollRef = firestoreInstance.collection("restaurants")
-    private fun getCurrentRestaurantDocRef(pos: LatLng) {
-val query = restCollRef.whereEqualTo("position", pos).limit(1)
-        query.get().addOnSuccessListener {
-            /** Here I want to create a list of the documents,
-             * but it will be maximum one item because of the limit.
-             * The reason I am doing this, is to get the document (if available)
-             * which has the same position I initiated.
-             * Later I can use this document to update its properties in NewRestaurantActivity.
-             *
-             */
-        }
+        return currentRestaurantDocRef
+
     }
 
     //Create entry in database
@@ -48,49 +44,72 @@ val query = restCollRef.whereEqualTo("position", pos).limit(1)
         }
     }
 
-    fun initRestaurant(pos: LatLng) {
-        getCurrentRestaurantDocRef(pos)
-        val restaurant =
-            com.example.go4lunch.model.Restaurant(
-                "",
-                "",
-                "",
-                pos,
-                "",
-                null,
-                "",
-                "",
-                0.0,
-                "",
-                ""
-            )
-        firestoreInstance.collection("restaurants")
-            .add(restaurant)
-            .addOnSuccessListener { documentReference ->
-                Log.d("db", "DocumentSnapshot added with ID: ${documentReference.id}")
-            }
-            .addOnFailureListener { e ->
-                Log.w("db", "Error adding document", e)
+    fun getRestaurant(placeId: String, position: LatLng): Restaurant {
+        var restaurant = Restaurant()
+        getCurrentRestaurantDocRef(placeId).get().addOnSuccessListener { documentSnapshot ->
+            if (!documentSnapshot.exists()) {
+                restaurant =
+                    Restaurant(
+                        "",
+                        placeId,
+                        "",
+                        CustomLatLng(position.latitude, position.longitude),
+                        "",
+                        null,
+                        "",
+                        "",
+                        0.0,
+                        "",
+                        ""
+                    )
+                firestoreInstance.collection("restaurants").document(placeId)
+                    .set(restaurant)
+                    .addOnSuccessListener {
+                        Log.d("db", "DocumentSnapshot successfully written")
+                    }
+                    .addOnFailureListener { e ->
+                        Log.w("db", "Error adding document", e)
+                    }
+
+            } else {
+                firestoreInstance.collection("restaurants")
+                    .document(placeId)
+                    .get()
+                    .addOnSuccessListener { document ->
+                        if (document != null) {
+                            restaurant =
+                                document.toObject(Restaurant::class.java)!!
+                            Log.d("db", "DocumentSnapshot data: ${document.data}")
+                        } else {
+                            Log.d("db", "No such document")
+                        }
+                    }
+                    .addOnFailureListener { exception ->
+                        Log.d("db", "get failed with ", exception)
+                    }
 
             }
+
+        }
+        return restaurant
     }
 
 
-
     fun updateRestaurant(
+        id: String,
         name: String = "",
         type: String = "",
         address: String = "",
         phone: String = "",
-        website: String =""
+        website: String = ""
     ) {
-        val restaurantFieldMap = mutableMapOf<String, String>()
+        val restaurantFieldMap = mutableMapOf<String, Any>()
         if (name.isNotBlank()) restaurantFieldMap["name"] = name
         if (type.isNotBlank()) restaurantFieldMap["type"] = type
         if (address.isNotBlank()) restaurantFieldMap["address"] = address
         if (phone.isNotBlank()) restaurantFieldMap["phone"] = phone
         if (website.isNotBlank()) restaurantFieldMap["website"] = website
-
+        getCurrentRestaurantDocRef(id).update(restaurantFieldMap)
     }
 
     fun updateCurrentUser(

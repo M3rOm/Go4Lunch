@@ -1,12 +1,11 @@
 package com.example.go4lunch.model
 
-import com.google.android.gms.maps.model.LatLng
 
 class Restaurant(
     val name: String,
     val uid: String,
     val address: String,
-    val position: LatLng?,
+    val position: CustomLatLng?,
     val opening: String,
     val going: List<User>?,
     val phone: String,
