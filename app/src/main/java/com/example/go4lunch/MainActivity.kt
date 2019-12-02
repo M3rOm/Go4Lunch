@@ -59,7 +59,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 )
             }
             R.id.nav_settings -> supportFragmentManager.beginTransaction().replace(R.id.nav_host_fragment,ProfileFragment()).commit()
-
+            // TODO: Open ProfileFragment when the profile picture or email address is clicked, not settings.
         }
         drawer.closeDrawer(GravityCompat.START)
         return true

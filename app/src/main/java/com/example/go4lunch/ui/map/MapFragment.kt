@@ -50,8 +50,8 @@ class MapFragment : Fragment(), OnMapReadyCallback {
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
         try {
-            // Customize the styling of the base map using a JSON object defined
-            // in a raw resource file.
+            /* Customize the styling of the base map using a JSON object defined
+             in a raw resource file. */
             mMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(this.activity, R.raw.map_style))
         } catch (e: Throwable
         //Resources.NotFoundException
@@ -81,7 +81,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
     }
 
     private fun enableMyLocation() {
-
+// This function checks for permissions, and requests it, if not yet granted.
         if (ActivityCompat.checkSelfPermission(
                 context!!,
                 Manifest.permission.ACCESS_FINE_LOCATION
@@ -121,14 +121,17 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         }
     }
     private fun setPoiClick(map: GoogleMap) {
+        //Behaviour when a POI is clicked on the map.
         map.setOnPoiClickListener { poi ->
             map.clear()
             val poiMarker = mMap.addMarker(
                 MarkerOptions()
                     .position(poi.latLng)
                     .title(poi.placeId)
+            // TODO: set title for poi.name after tests are done.
             )
             poiMarker.showInfoWindow()
+            // TODO: Markers for clicked POIs should not show if not in database.
         }
     }
 }

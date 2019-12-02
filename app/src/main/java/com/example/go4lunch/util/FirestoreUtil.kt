@@ -45,6 +45,12 @@ object FirestoreUtil {
     }
 
     fun getRestaurant(placeId: String, position: LatLng): Restaurant {
+        /** This function gets called first when a user opens it from map.
+         * First it tries to get the restaurant's document from the database,
+         * and if not found, creates a new entry with empty values, and returns it.
+         * However if found, it creates a Restaurant object from the fetched document,
+         * and returns it.
+         */
         var restaurant = Restaurant()
         getCurrentRestaurantDocRef(placeId).get().addOnSuccessListener { documentSnapshot ->
             if (!documentSnapshot.exists()) {
@@ -91,11 +97,17 @@ object FirestoreUtil {
             }
 
         }
+        /**
+         * For some reason, it never returns the details from a document saved earlier.
+         * It always returns empty values, like if it was just created
+         * and also creates a new entry with the same details.
+         */
         return restaurant
     }
 
 
     fun updateRestaurant(
+        //This function updates the restaurant's document in the database with the new values typed in by he user.
         id: String,
         name: String = "",
         type: String = "",
@@ -113,6 +125,7 @@ object FirestoreUtil {
     }
 
     fun updateCurrentUser(
+        //This function updates the user's document in the database with the new values typed in by he user.
         firstName: String = "",
         lastName: String = "",
         email: String = "",
@@ -127,6 +140,7 @@ object FirestoreUtil {
     }
 
     fun getCurrentUser(onComplete: (com.example.go4lunch.model.User) -> Unit) {
+        //Fetches the document for the currently logged on user.
         currentUserDocRef.get()
             .addOnSuccessListener {
                 onComplete(it.toObject(com.example.go4lunch.model.User::class.java)!!)

@@ -17,6 +17,7 @@ import kotlinx.android.synthetic.main.fragment_profile.view.*
 import java.io.ByteArrayOutputStream
 
 class ProfileFragment : Fragment() {
+    //When opened, it fetches the document of current user from database, and shows details to edit.
 
     private val RC_SELECT_IMAGE = 2
     private lateinit var selectedImageBytes: ByteArray
@@ -41,6 +42,7 @@ class ProfileFragment : Fragment() {
                 )
             }
             save_btn.setOnClickListener {
+                //updates user document in database
                 if (::selectedImageBytes.isInitialized)
                     StorageUtil.uploadProfilePhoto(selectedImageBytes) { imagePath ->
                         FirestoreUtil.updateCurrentUser(
@@ -63,6 +65,7 @@ class ProfileFragment : Fragment() {
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        // When an image is selected this transforms and shows in the ImageView.
         if (requestCode == RC_SELECT_IMAGE && resultCode == Activity.RESULT_OK &&
             data != null && data.data != null
         ) {
