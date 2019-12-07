@@ -2,9 +2,10 @@
 <resources>
     <color name="colorPrimaryDark">#802b11</color>
     <color name="colorPrimaryDarkAlt">#bf360c</color>
-    <color name="colorPrimary">#ff5722</color>
+    <color name="colorPrimary">#FF5722</color>
     <color name="colorPrimaryAlt">#ff6f00</color>
     <color name="colorAccent">#ffc622</color>
     <color name="colorComplementary">#22caff</color>
     <color name="colorBackground">#CFCFCF</color>
+    <color name="White">#FFFFFF</color>
 </resources>

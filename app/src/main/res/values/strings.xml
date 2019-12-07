@@ -15,11 +15,21 @@
     <string name="save">Save</string>
     <string name="user_decided">%1$S is eating %2$s (%3$s)</string>
     <string name="user_not_decided">%1$S hasn\'t decided yet</string>
+    <string name="user_is_joining">%1$S is joining!</string>
     <string name="cancel">Cancel</string>
     <string name="hint_new_restaurant_name">Name</string>
     <string name="hint_new_restaurant_cuisine">Cuisine</string>
     <string name="hint_new_restaurant_address">Address</string>
     <string name="hint_new_restaurant_phone">Phone</string>
     <string name="hint_new_restaurant_website">Website</string>
+    <string name="call">Call</string>
+    <string name="like">Like</string>
+    <string name="openWebsite">Website</string>
+    <string name="restaurantImage">An image of the restaurant</string>
+    <string name="callButtonDescription">This button opens dialer</string>
+    <string name="likeButtonDescription">This button likes the restaurant</string>
+    <string name="websiteButtonDescription">This button opens restaurant\'s website in browser</string>
+    <string name="restaurant_name">Restaurant Name</string>
+    <string name="restaurant_description">Restaurant type - address</string>
 
 </resources>
