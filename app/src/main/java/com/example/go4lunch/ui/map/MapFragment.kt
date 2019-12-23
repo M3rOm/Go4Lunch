@@ -17,7 +17,12 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.example.go4lunch.NewRestaurantActivity
 import com.example.go4lunch.R
+import com.example.go4lunch.RestaurantActivity
+import com.example.go4lunch.messages.MessageEvent
 import com.example.go4lunch.model.Restaurant
+import com.example.go4lunch.services.Dataset
+import com.example.go4lunch.services.SearchResultsInterface
+import com.google.android.gms.common.api.Status
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -25,7 +30,16 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
+import com.google.android.libraries.places.api.model.Place
+import com.google.android.libraries.places.widget.AutocompleteSupportFragment
+import com.google.android.libraries.places.widget.listener.PlaceSelectionListener
 import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.android.synthetic.main.nav_host.*
+import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 const val REQUEST_LOCATION_PERMISSION = 1
@@ -35,7 +49,8 @@ class MapFragment : Fragment(), OnMapReadyCallback {
     private lateinit var mMap: GoogleMap
     private lateinit var mFusedLocationClient: FusedLocationProviderClient
     private lateinit var markerID: String
-    private lateinit var myMutableMap: MutableMap<Marker,Restaurant>
+    lateinit var listOfRestaurants: MutableList<Restaurant>
+    lateinit var listOfMarkers: MutableList<Marker>
     private val firestoreInstance: FirebaseFirestore by lazy { FirebaseFirestore.getInstance() }
 
     override fun onCreateView(
@@ -46,12 +61,23 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         return inflater.inflate(R.layout.fragment_map, container, false)
     }
 
+    override fun onStart() {
+        super.onStart()
+        EventBus.getDefault().register(this)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        EventBus.getDefault().unregister(this)
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         val mapFragment = childFragmentManager
             .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this.activity!!)
+
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
@@ -82,14 +108,15 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         getLocation()
         //setMapLongClick(mMap)
         setPoiClick(mMap)
-        //openNewRestaurantDialog(mMap)
+        openNewRestaurantDialog(mMap)
 
     }
 
     private fun addRestaurants() {
+        listOfRestaurants = mutableListOf<Restaurant>()
+        listOfMarkers = mutableListOf<Marker>()
         val restaurants = firestoreInstance.collection("restaurants")
         val orangeMarker = ContextCompat.getDrawable(context!!, R.drawable.ic_restmarkerorange)
-        val listOfRestaurants = mutableListOf<Restaurant>()
         val customMarker = orangeMarker?.let { drawableToBitmap(it) }
         restaurants.get()
             .addOnSuccessListener { result ->
@@ -99,6 +126,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
                 for (i in 0 until listOfRestaurants.size) {
                     val pos =
                         listOfRestaurants[i].position?.latitude?.let {
+                            it
                             listOfRestaurants[i].position?.longitude?.let { it1 ->
                                 LatLng(
                                     it,
@@ -106,10 +134,10 @@ class MapFragment : Fragment(), OnMapReadyCallback {
                                 )
                             }
                         }
-                        mMap.addMarker(pos?.let {
+                    listOfMarkers.add(i, mMap.addMarker(pos?.let {
                         MarkerOptions().position(it).title(listOfRestaurants[i].name)
                             .icon(customMarker)
-                    })
+                    }))
                 }
             }
             .addOnFailureListener { exception ->
@@ -164,14 +192,17 @@ class MapFragment : Fragment(), OnMapReadyCallback {
     private fun openNewRestaurantDialog(map: GoogleMap) {
         //TODO : If you tap on a custom marker, which is not a POI, then markerID will be invalid.
         map.setOnInfoWindowClickListener { poi ->
-            val idToPut = markerID
-            val positionToPut = poi.position
-            startActivity(
-                Intent(context, NewRestaurantActivity::class.java).putExtra(
-                    "restPlaceId",
-                    idToPut
-                ).putExtra("position", positionToPut)
-            )
+            val restaurantToOpen = listOfRestaurants.find {
+
+                it.name == poi.title && it.position!!.latitude == poi.position.latitude && it.position.longitude == poi.position.longitude
+            }
+            if (restaurantToOpen != null)
+                startActivity(
+                    Intent(context, RestaurantActivity::class.java).putExtra(
+                        "restaurant",
+                        restaurantToOpen
+                    )
+                )
         }
     }
 
@@ -189,6 +220,14 @@ class MapFragment : Fragment(), OnMapReadyCallback {
             )
             poiMarker.showInfoWindow()
             // TODO: Markers for clicked POIs should not show if not in database.
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+        fun transmitResult(event: MessageEvent) {
+        //Comb together the two lists, make invisible those markers, which ID's are not on both.
+        for (i in listOfMarkers) {
+            i.isVisible = event.message.contains(i.id)
         }
     }
 }

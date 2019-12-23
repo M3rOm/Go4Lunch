@@ -9,7 +9,7 @@ import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 
 object FirestoreUtil {
-    private val firestoreInstance: FirebaseFirestore by lazy { FirebaseFirestore.getInstance() }
+    val firestoreInstance: FirebaseFirestore by lazy { FirebaseFirestore.getInstance() }
 
     private val currentUserDocRef: DocumentReference = firestoreInstance.document(
         "users/${FirebaseAuth.getInstance().uid
@@ -129,13 +129,17 @@ object FirestoreUtil {
         firstName: String = "",
         lastName: String = "",
         email: String = "",
-        photo: String? = null
+        photo: String? = null,
+        decided: Boolean = false,
+        placeToEat: Restaurant? = null
     ) {
         val userFieldMap = mutableMapOf<String, Any>()
         if (firstName.isNotBlank()) userFieldMap["firstName"] = firstName
         if (lastName.isNotBlank()) userFieldMap["lastName"] = lastName
         if (email.isNotBlank()) userFieldMap["email"] = email
         if (photo != null) userFieldMap["photo"] = photo
+        if (decided) userFieldMap["decided"] = decided
+        if (placeToEat != null) userFieldMap ["placeToEat"] = placeToEat
         currentUserDocRef.update(userFieldMap)
     }
 
@@ -146,4 +150,11 @@ object FirestoreUtil {
                 onComplete(it.toObject(com.example.go4lunch.model.User::class.java)!!)
             }
     }
+
+    fun addUserToRestaurant(uid: String) {
+        getCurrentRestaurantDocRef(uid).update("going", currentUserDocRef)
+            .addOnSuccessListener { Log.d("FIRESTORE", "DocumentSnapshot successfully updated!") }
+            .addOnFailureListener { e -> Log.w("FIRESTORE", "Error updating document", e) }
+    }
+
 }

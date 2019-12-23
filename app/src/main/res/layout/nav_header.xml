@@ -18,7 +18,8 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:id="@+id/profile_information_view">
 
         <ImageView
             android:id="@+id/nav_img_profile"

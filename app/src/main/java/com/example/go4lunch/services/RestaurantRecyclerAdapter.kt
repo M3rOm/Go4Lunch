@@ -29,6 +29,7 @@ class RestaurantRecyclerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>(
             )
         )
     }
+
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder) {
             is ViewHolder -> holder.bind(getSnapshot(position))
@@ -38,6 +39,7 @@ class RestaurantRecyclerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>(
     override fun getItemCount(): Int {
         return mSnapshots.size
     }
+
     private fun getSnapshot(index: Int): DocumentSnapshot {
         return mSnapshots[index]
     }
@@ -50,24 +52,36 @@ class RestaurantRecyclerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>(
         val restDistance = itemView.restaurant_distance_textView
         val restGoing = itemView.restaurant_numberOfGoing_textView
         val restImage = itemView.restaurant_imageView
+        val restRating = itemView.restaurant_rating_textView
+        val star2 = itemView.star2_imageView
+        val star3 = itemView.star3_imageView
 
         fun bind(snapshot: DocumentSnapshot) {
             val restaurant = snapshot.toObject(Restaurant::class.java)
-
             //Load image
             if (restaurant != null) {
                 Glide.with(restImage.context)
                     .load(restaurant.photoUrl)
                     .into(restImage)
+                //Fill in details
+                restName.text = restaurant.name
+                restAddress.text = restaurant.address
+                restOpen.text = restaurant.opening
+                //TODO : set distance logic
+                restDistance.text = "100m"
+                restGoing.text = restaurant.going?.size.toString()
+                restRating.text = restaurant.rating.toString()
+                //Showing the number of stars reflect the restaurant rating
+                if (restaurant.rating < 3.0) {
+                    star2.visibility = View.INVISIBLE
+                    star3.visibility = View.INVISIBLE
+                } else if (restaurant.rating < 4.0) {
+                    star3.visibility = View.INVISIBLE
+                }
             }
-            restName.text = restaurant?.name ?: "no name"
-            restAddress.text = restaurant?.address ?: "no address"
-            restOpen.text = restaurant?.opening ?: "no opening"
-            //TODO : set distance logic
-            restDistance.text = "100m"
-            restGoing.text = restaurant?.going?.size.toString()
         }
     }
+
     fun updateItems(newList: List<DocumentSnapshot>) {
         mSnapshots.clear()
         mSnapshots.addAll(newList)

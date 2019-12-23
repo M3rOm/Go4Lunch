@@ -1,23 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
+
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="@color/colorPrimary"
         android:elevation="4dp"
-        app:menu="@menu/menu_toolbar" />
+        app:menu="@menu/menu_toolbar">
+        <RelativeLayout
+            android:id="@+id/places_autocomplete_search_bar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/colorBackground"
+            android:visibility="gone"
+            android:elevation="10dp">
+
+            <ImageView
+                android:id="@+id/ic_magnify"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                app:srcCompat="@drawable/ic_search_black_24dp" />
+
+            <AutoCompleteTextView
+                android:id="@+id/input_search"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_centerVertical="true"
+                android:layout_toEndOf="@+id/ic_magnify"
+                android:background="@null"
+                android:hint="@string/restaurant_search_hint"
+                android:imeOptions="actionSearch"
+                android:isScrollContainer="false"
+                android:inputType="textAutoCorrect"
+                android:maxLines="1"
+                android:scrollHorizontally="true"
+                android:textColor="#000"
+                android:textSize="16sp" />
+
+
+        </RelativeLayout>
+    </androidx.appcompat.widget.Toolbar>
+
 
     <fragment
         android:id="@+id/nav_host_fragment"
         android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:defaultNavHost="true"
         android:layout_marginBottom="56dp"
+        app:defaultNavHost="true"
         app:navGraph="@navigation/nav_graph" />
+
 </LinearLayout>

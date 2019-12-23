@@ -22,4 +22,12 @@
         android:name="com.example.go4lunch.ui.users.UserListFragment"
         android:label="@string/title_workmates_view"
         tools:layout="@layout/fragment_workmates" />
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.example.go4lunch.ProfileFragment"
+        android:label="ProfileFragment" />
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.example.go4lunch.SettingsFragment"
+        android:label="SettingsFragment" />
 </navigation>

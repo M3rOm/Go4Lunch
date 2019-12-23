@@ -1,0 +1,38 @@
+<resources>
+    <string name="app_name">Go4Lunch</string>
+    <string name="nav_drawer_open">Abrir el cajón de navegación</string>
+    <string name="nav_drawer_close">Cerrar el cajón de navegación</string>
+    <string name="title_map_view">Mapa</string>
+    <string name="title_list_view">Restaurantes</string>
+    <string name="title_workmates_view">Compañeros de trabajo</string>
+    <string name="facebook_application_id" translatable="false">418991109041382</string>
+    <string name="fb_login_protocol_scheme" translatable="false">fb418991109041382</string>
+    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyChcg5b-4mypfI6aw2PpCcs4FStpO0AOgo</string>
+    <string name="your_profile_picture">Tu foto de perfil</string>
+    <string name="hint_first_name">Nombre de pila</string>
+    <string name="hint_last_name">Apellido</string>
+    <string name="hint_email">Correo electrónico</string>
+    <string name="save">Salvar</string>
+    <string name="user_decided">%1$S está comiendo %2$s (%3$s)</string>
+    <string name="user_not_decided">%1$S aún no ha decidido</string>
+    <string name="user_is_joining">%1$S se une!</string>
+    <string name="cancel">Cancelar</string>
+    <string name="hint_new_restaurant_name">Nombre</string>
+    <string name="hint_new_restaurant_cuisine">Cocina</string>
+    <string name="hint_new_restaurant_address">Dirección</string>
+    <string name="hint_new_restaurant_phone">Teléfono</string>
+    <string name="hint_new_restaurant_website">Sitio web</string>
+    <string name="call">Llamar</string>
+    <string name="like">Gustar</string>
+    <string name="openWebsite">Web abierta</string>
+    <string name="restaurantImage">Una imagen del restaurante.</string>
+    <string name="restaurant_type_and_address">%1$s - %2$s</string>
+    <string name="callButtonDescription">Este botón abre el marcador</string>
+    <string name="likeButtonDescription">A este botón le gusta el restaurante.</string>
+    <string name="websiteButtonDescription">Este botón abre el sitio web del restaurante en el navegador</string>
+    <string name="restaurant_name">Nombre del restaurante</string>
+    <string name="restaurant_description">Tipo de restaurante - dirección</string>
+    <string name="restaurant_search_hint">Nombre del restaurante</string>
+    <string name="notification_switch">Alternar notificaciones</string>
+
+</resources>

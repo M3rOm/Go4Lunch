@@ -18,6 +18,7 @@ class UserListFragment : Fragment() {
 
     private lateinit var userRecyclerAdapter: UsersRecyclerAdapter
     private lateinit var mQuery: Query
+    private lateinit var userListenerRegistration: ListenerRegistration
 
     override fun onCreateView(
         inflater: LayoutInflater,

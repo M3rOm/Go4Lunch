@@ -6,14 +6,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:openDrawer="start">
+    tools:openDrawer="end">
 
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
-
             <include
                 layout="@layout/nav_host" />
 
@@ -33,7 +32,6 @@
                 android:layout_height="match_parent"
                 android:layout_gravity="start"
                 android:fitsSystemWindows="true"
-                app:headerLayout="@layout/nav_header"
                 app:menu="@menu/side_nav_menu" />
 
 </androidx.drawerlayout.widget.DrawerLayout>

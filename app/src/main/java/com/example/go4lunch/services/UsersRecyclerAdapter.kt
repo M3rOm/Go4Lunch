@@ -9,8 +9,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.go4lunch.MainActivity
 import com.example.go4lunch.R
+import com.example.go4lunch.model.Restaurant
 import com.example.go4lunch.model.User
+import com.example.go4lunch.util.FirestoreUtil
+import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.DocumentSnapshot
+import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.user_list_item.view.*
 
 
@@ -31,6 +35,7 @@ class UsersRecyclerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             )
         )
     }
+
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder) {
             is ViewHolder -> holder.bind(getSnapshot(position))
@@ -40,6 +45,7 @@ class UsersRecyclerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     override fun getItemCount(): Int {
         return mSnapshots.size
     }
+
     private fun getSnapshot(index: Int): DocumentSnapshot {
         return mSnapshots[index]
     }
@@ -58,25 +64,29 @@ class UsersRecyclerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                     .load(user.photo)
                     .error(R.drawable.com_facebook_profile_picture_blank_square)
                     .into(userImage)
-                val context = userState.context
+                val context = userImage.context
                 //Load state
                 if (user.decided) {
-                    val text = context.getString(R.string.user_decided,user.firstName,"Italian", user.placeToEat)
+                    val text = context.getString(
+                        R.string.user_decided,
+                        user.firstName,
+                        user.placeToEat?.type,
+                        user.placeToEat?.name
+                    )
                     userState.text = text
                 } else {
-                    val text = context.getString(R.string.user_not_decided,user.firstName)
+                    val text = context.getString(R.string.user_not_decided, user.firstName)
                     userState.text = text
                 }
-
             }
-
         }
     }
+
     fun updateItems(newList: List<DocumentSnapshot>) {
         mSnapshots.clear()
         mSnapshots.addAll(newList)
         notifyDataSetChanged()
     }
-
 }
+
 
