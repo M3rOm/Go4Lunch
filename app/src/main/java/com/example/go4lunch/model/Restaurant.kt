@@ -9,7 +9,7 @@ data class Restaurant (
     val address: String = "",
     val position: CustomLatLng? = null,
     val opening: String = "",
-    val going: List<User>? = null,
+    val going: List<String>? = null,
     val phone: String = "",
     val photoUrl: String = "",
     val rating: Double = 0.0,
@@ -21,7 +21,7 @@ data class Restaurant (
         parcel.readString()?:"",
         parcel.readParcelable(CustomLatLng::class.java.classLoader),
         parcel.readString()?:"",
-        parcel.createTypedArrayList(User),
+        parcel.createStringArrayList(),
         parcel.readString()?:"",
         parcel.readString()?:"",
         parcel.readDouble(),
@@ -37,7 +37,7 @@ data class Restaurant (
         parcel.writeString(address)
         parcel.writeParcelable(position, flags)
         parcel.writeString(opening)
-        parcel.writeTypedList(going)
+        parcel.writeStringList(going)
         parcel.writeString(phone)
         parcel.writeString(photoUrl)
         parcel.writeDouble(rating)
